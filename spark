@@ -1,0 +1,152 @@
+1.To Start Spark
+spark-shell
+
+2.Reading csv file locally
+val path = "examples/src/main/resources/people.csv"
+val df = spark.read.csv(path)
+
+3.Creating RDD using parallelize()
+val data = List(1, 2, 3, 4, 5)
+val rdd = sc.parallelize(data)
+// Create an RDD from a list of strings
+val data = List("Hello", "World", "Spark", "is", "awesome")
+val rdd = sc.parallelize(data)
+// Create an RDD from a list of tuples
+val data = List(("Alice", 25), ("Bob", 30), ("Charlie", 35))
+val rdd = sc.parallelize(data)
+Creating RDD from a text file(dataset)
+// Start the Scala Spark shell or use the spark-shell command in Cloudera
+// Load the sample file into an RDD
+val rdd = sc.textFile("hdfs://path/to/your/sample/file.txt")
+
+
+
+4.Perform operations on the RDD, for example, count the number of lines
+val count = rdd.count()
+println(s"Number of lines in the RDD: $count")
+5.RDD Transformations
+MAP.
+• // Create an RDD of integers
+• val rdd = sc.parallelize(List(1, 2, 3, 4, 5))
+• // Map each element to its square
+• val squaredRDD = rdd.map(x => x * x)
+• // Print the result
+• squaredRDD.collect().foreach(println)
+Filter
+• // Create an RDD of integers
+• val rdd = sc.parallelize(List(1, 2, 3, 4, 5))
+• // Filter the even numbers
+• val evenRDD = rdd.filter(x => x % 2 == 0)
+• // Print the result
+• evenRDD.collect().foreach(println)
+FlatMap
+• // Create an RDD of strings
+• val rdd = sc.parallelize(List("hello world", "how are you"))
+• // Split each string into words and flatten the result
+• val wordsRDD = rdd.flatMap(_.split(" "))
+• // Print the result
+• wordsRDD.collect().foreach(println)
+Union
+• // Create two RDDs of integers
+• val rdd1 = sc.parallelize(List(1, 2, 3))
+• val rdd2 = sc.parallelize(List(4, 5, 6))
+• // Union the two RDDs
+• val unionRDD = rdd1.union(rdd2)
+• // Print the result
+• unionRDD.collect().foreach(println)
+Distinct
+• // Create an RDD of integers with duplicates
+• val rdd = sc.parallelize(List(1, 2, 3, 4, 2, 3, 5))
+• // Remove duplicates
+• val distinctRDD = rdd.distinct()
+• // Print the result
+• distinctRDD.collect().foreach(println)
+
+
+
+6.RDD Actions
+collect()
+• // Create an RDD of integers
+• val rdd = sc.parallelize(List(1, 2, 3, 4, 5))
+• // Collect all elements of the RDD
+• val result = rdd.collect()
+• // Print the result
+• result.foreach(println)
+take(n)
+• // Create an RDD of integers
+• val rdd = sc.parallelize(List(1, 2, 3, 4, 5))
+• // Take the first 3 elements of the RDD
+• val result = rdd.take(3)
+• // Print the result
+• result.foreach(println)
+reduce(func)
+• // Create an RDD of integers
+• val rdd = sc.parallelize(List(1, 2, 3, 4, 5))
+• // Sum all elements of the RDD using reduce
+• val sum = rdd.reduce((x, y) => x + y)
+• // Print the result
+• println("Sum:", sum)
+count()
+• // Create an RDD of integers
+• val rdd = sc.parallelize(List(1, 2, 3, 4, 5))
+• // Count the number of elements in the RDD
+• val count = rdd.count()
+• // Print the result
+• println("Count:", count)
+foreach(func)
+• // Create an RDD of integers
+• val rdd = sc.parallelize(List(1, 2, 3, 4, 5))
+• // Print each element of the RDD
+• rdd.foreach(println)
+
+
+
+7.aggregation functions in Spark
+Sum()
+• val data = Seq(("Alice", 100), ("Bob", 150), ("Charlie", 200), ("Alice",
+50))
+• val df = data.toDF("Name", "Amount") // Sum aggregation
+• val sumDF =
+df.groupBy("Name").agg(sum("Amount").alias("TotalAmount"))
+• sumDF.show()
+Avg()
+• val data = Seq(("Alice", 100), ("Bob", 150), ("Charlie", 200), ("Alice", 50))
+• val df = data.toDF("Name", "Amount") // Average aggregation val
+avgDF =
+df.groupBy("Name").agg(avg("Amount").alias("AverageAmount"))
+avgDF.show()
+Max()
+• val data = Seq(("Alice", 100), ("Bob", 150), ("Charlie", 200), ("Alice",
+50))
+• val df = data.toDF("Name", "Amount") // Maximum aggregation val
+maxDF =
+df.groupBy("Name").agg(max("Amount").alias("MaxAmount"))
+• maxDF.show()
+Min()
+• val data = Seq(("Alice", 100), ("Bob", 150), ("Charlie", 200), ("Alice",
+50))
+• val df = data.toDF("Name", "Amount") // Minimum aggregation val
+minDF =
+df.groupBy("Name").agg(min("Amount").alias("MinAmount"))
+• minDF.show()
+
+• val salesData = Seq( (1, "A", 10, 100.0), (2, "B", 20, 200.0), (3, "A", 15,
+150.0), (4, "C", 5, 50.0), (5, "B", 25, 250.0) ).toDF("transaction_id",
+"product_id", "quantity", "amount")
+• // Sample product data
+• val productData = Seq( ("A", "Product A", "Category 1"), ("B", "Product
+B", "Category 2"), ("C", "Product C", "Category 1") ).toDF("product_id",
+"product_name", "category")
+// Joining the datasets
+• val joinedDF = salesData.join(productData, Seq("product_id"),
+"inner") joinedDF.show()
+
+
+
+
+from pyspark import SparkConf, SparkContext
+conf = SparkConf().setAppName("ReadFilesIntoRDD")
+sc = SparkContext(conf=conf)
+rdd = sc.textFile("file:///path/to/directory/*.txt")
+for line in rdd.collect():
+    print(line)
