@@ -1,0 +1,93 @@
+1.To start hive
+hive
+2.To know the list of databases
+ hive> show databases;
+3.To create new db
+ hive> create database demo;
+hive> show databases;
+4.Drop database
+hive> drop database demo;
+5.Hive - Create Table
+hive> create table demo.employee (Id int, Name string , Salary float)
+row format delimited fields terminated by ',' ;
+hive> describe demo.employee
+6.Hive - Load Data
+• LOAD DATA LOCAL INPATH '/home/Desktop/hive/emp_details' INTO
+TABLE demo.employee;
+7.Hive - Drop Table
+• hive> drop table new_employee;
+8.Hive - Alter Table
+• Rename a Table
+Alter table old_table_name rename to new_table_name;
+• Adding column
+Alter table table_name add columns(column_name datatype);
+• Change Column
+Alter table employee_data change name first_name string;
+Delete or Replace Column
+alter table employee_data replace columns( id string, first_name strin
+g, age int);
+9.Arrays
+CREATE TABLE array_example (
+id INT,
+names ARRAY<STRING>
+);
+INSERT INTO array_example VALUES
+(1, array('John', 'Alice', 'Bob')),
+(2, array('Sarah', 'Michael'));
+SELECT id, names[1] AS first_name FROM array_example;
+10.structure
+CREATE TABLE struct_example (
+id INT,
+employee STRUCT<name: STRING, age: INT, department: STRING>
+);
+INSERT INTO struct_example VALUES
+(1, STRUCT('John', 30, 'HR')),
+(2, STRUCT('Alice', 25, 'IT'));
+SELECT id, employee.name AS name, employee.age AS age FROM
+struct_example;
+11.Map
+CREATE TABLE map_example (
+id INT,
+scores MAP<STRING, INT>
+);
+INSERT INTO map_example VALUES
+(1, map('math', 90, 'science', 85)),
+(2, map('math', 95, 'science', 88));
+SELECT id, scores['math'] AS math_score, scores['science'] AS
+science_score FROM map_example;
+12.Static Partitioning
+hive> create table student (id int, name string, age int, institute string)
+partitioned by (course string)
+row format delimited fields terminated by ',';
+13.To know partitioning on a table
+hive> show partitions table_name;
+14.Dynamic Partitioning
+hive> set hive.exec.dynamic.partition=true;
+hive> set hive.exec.dynamic.partition.mode=nonstrict;
+• Create a table to store the data.
+ hive> create table stud_demo(id int, name string, age int, institute
+string, course string) row format delimited fields terminated by ',';
+• load the data into the table.
+hive> load data local inpath '/home/cloudera/Desktop/hive/student_
+details' into table stud_demo;
+• Create a partition table by using the following command: -
+hive> create table student_part (id int, name string, age int, institute
+string) partitioned by (course string) row format delimited
+fields terminated by ',';
+15. Create a bucketing table by using the following command: -
+• hive> create table emp_bucket(Id int, Name string , Salary float)
+clustered by (Id) into 3 buckets row format delimited fields terminated
+by ',' ;
+hive> insert overwrite table emp_bucket select *
+from emp_demo;
+16. Creating a View
+hive> CREATE VIEW emp_30000 AS SELECT * FROM employee WHERE salary>30000;
+Dropping a View
+hive> DROP VIEW emp_30000;
+17.Creating an Index
+hive> CREATE INDEX index_salary ON TABLE employee(salary)
+AS
+'org.apache.hadoop.hive.ql.index.compact.CompactIndexHandler
+';
+• Dropping an Index
+hive> DROP INDEX index_salary ON employee;
