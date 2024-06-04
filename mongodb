@@ -1,35 +1,48 @@
 1.How to start Mongodb
 mongo
+
 2.MongoDB Help
 db.help() 
+
 3.MongoDB Statistics
 db.stats()
+
 4.MongoDB - Create Database
 • Syntax
+
 5.use DATABASE_NAME
 • The dropDatabase() Method
 db.dropDatabase()
+
 6.MongoDB - Create Collection
 db.createCollection(“student”)
+
 7.To get collections in a database
 show collections
+
 8.To drop a collection
 db.students.drop()
+
 9.inserting
 db.student.insertOne({ “rno”: “100“, “name”:”Ravi” })
+
 10.Find documents in a collection:
 db.student.find()
+
 11.Update documents in a collection:
 > db.student.updateOne({ rno: "100" }, { $set: { rno: "200" } })
 > db.student.find()
+
 12.Delete documents from a collection:
 • > db.student.deleteOne({ rno: "100" })
+
 13.Insert multiple documents into a collection:
 db.<collection_name>.insertMany([
 { key1: "value1", key2: "value2" },
 { key1: "value3", key2: "value4" },
 { key1: "value5", key2: "value6" }
 ])
+
 14.Insert documents with custom "_id" values into a
 collection:
 db.<collection_name>.insertMany([
@@ -37,12 +50,18 @@ db.<collection_name>.insertMany([
 { _id: 2, key1: "value3", key2: "value4" },
 { _id: 3, key1: "value5", key2: "value6" }
 ])
+
+
 15.sort on books collection
 • db.books.find().sort({ price: 1 })
 db.books.find().sort({ price: -1 })
+
+
 16.Update all documents with a common field value:
 • db.<collection_name>.updateMany({ <field>: <value_to_match> }, {
 $set: { <field_to_update>: <new_value> } })
+
+
 17.Aggregate functions
 Count the total number of students:
 • db.students.aggregate([
@@ -72,6 +91,8 @@ Find the maximum and minimum age of students:
 • }
 • }
 • ]);
+
+
 18.Import command to use at termianl
 mongoimport --db your_database_name --collection
 your_collection_name --file your_json_file.json
