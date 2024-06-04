@@ -1,0 +1,31 @@
+-- Load student data
+• student_data = LOAD 'student_info' USING PigStorage(',') AS
+(student_id:int, name:chararray, dob:chararray, address:chararray);
+• -- Convert names to uppercase
+student_names_upper = FOREACH student_data GENERATE
+UPPER(name) AS name_upper;
+Dump(student_names_upper);
+-- Extract initials from names
+• student_initials = FOREACH student_data GENERATE name,
+SUBSTRING(name, 0, 1) AS initial;
+• Dump(student_initials);
+-- Concatenate name and address
+• student_name_address = FOREACH student_data GENERATE name,
+address, CONCAT(name, ', ', address) AS name_address;
+• Dump(student_name_address);
+-- Calculate age from date of birth
+• student_age = FOREACH student_data GENERATE name, dob,
+(int)TOTUPLE(ToUnixTime(CurrentTime()) - ToUnixTime(ToDate(dob,
+'yyyy-MM-dd'))) / (365 * 24 * 60 * 60) AS age;
+• Dump(student_age);
+-- Extract year from date of birth
+• student_dob_year = FOREACH student_data GENERATE name, dob,
+GetYear(ToDate(dob, 'yyyy-MM-dd')) AS dob_year;
+• Dump(student_dob_year);
+-- Extract date from date of birth
+• student_date = FOREACH student_data GENERATE name, dob, GetDay(ToDate(dob, 'yyyy-MMdd')) AS dob_day;
+• Dump(student_date);
+• -- Extract month from date of birth
+• student_month = FOREACH student_data GENERATE name, dob, GetMonth(ToDate(dob, 'yyyyMM-dd')) AS dob_month;
+• -- Display the contents of the student_month relation DUMP
+Dump(student_month);
